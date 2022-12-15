@@ -135,4 +135,5 @@ def extract(text1):
             'color': extract_color(text=text1),
             'addressLAC':extract_addressLAC(text=text1),
             'time':extract_timeLAC(text=text1)}
+    return dict
     # print(dict)

@@ -22,6 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+import historytask
 from application import dispatch
 from application import settings
 from dvadmin.system.views.dictionary import InitDictionaryViewSet
@@ -81,6 +82,7 @@ urlpatterns = (
             path("api/init/dictionary/", InitDictionaryViewSet.as_view()),
             path("api/init/settings/", InitSettingsViewSet.as_view()),
             path("apiLogin/", ApiLogin.as_view()),
+            path('api/historytask',include('historytask.urls'))
         ]
         + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
         + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
