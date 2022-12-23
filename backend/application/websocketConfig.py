@@ -121,12 +121,13 @@ class realTimeChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_name,self.channel_name )
         self.full_record_txt=''
         await self.accept()
-        await self.send(set_message('system', 'SYSTEM', '连接成功'))
+        # await self.send(set_message('system', 'SYSTEM', '连接成功'))
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(self.room_name,self.channel_name)
 
     async def receive(self, text_data=None, bytes_data=None):
+        # text_data是传入的json数据
         message = text_data
         message_asr = {}
         try:
@@ -164,7 +165,7 @@ class realTimeChatConsumer(AsyncWebsocketConsumer):
             # 关键字提取
             self.full_record_txt += record_data
             keyInfo = dizhi1.extract(self.full_record_txt)
-            print(keyInfo)
+            # print(keyInfo)
 
             message_asr['text'] = record_data
             message_asr['date'] = message_dict['time']
@@ -197,7 +198,7 @@ class realTimeChatConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(e)
         # 传到通道内
-        finally:
+        else:
             await self.channel_layer.group_send(self.room_name,{'type':'chat_message','data':dictData})
 
 
@@ -206,3 +207,30 @@ class realTimeChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({'message':message}))
+
+
+# 测试用
+# class realTimeChatConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         self.room_name=self.scope['url_route']['kwargs']['room_name']
+#         # self.room_group_name=self.room_name
+#         self.record=''
+#         await self.channel_layer.group_add(self.room_name,self.channel_name )
+#         await self.accept()
+#         # await self.send( '连接成功')
+#
+#     async def disconnect(self, code):
+#         await self.channel_layer.group_discard(self.room_name,self.channel_name)
+#
+#     async def receive(self, text_data=None, bytes_data=None):
+#         text_data_json=json.loads(text_data)
+#         # self.record+=text_data_json['message']
+#         self.record+=text_data_json['msg']
+#         # 传到通道内
+#         await self.channel_layer.group_send(self.room_name,{'type':'chat_message','message':self.record})
+#
+#
+#     async def chat_message(self,event):
+#         message=event['message']
+#         # Send message to WebSocket
+#         await self.send(text_data=json.dumps({'message':message}))
