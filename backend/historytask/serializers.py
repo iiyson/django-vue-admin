@@ -1,6 +1,6 @@
 from .models import KeyInfoModel
 from dvadmin.utils.serializers import CustomModelSerializer
-from dizhi1 import extract
+
 
 class KeyInfoSerializers(CustomModelSerializer):
     class Meta:

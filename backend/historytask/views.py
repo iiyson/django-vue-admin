@@ -1,11 +1,10 @@
 from django.http import QueryDict
-from django.shortcuts import render
 
 from dvadmin.utils.json_response import DetailResponse
 from dvadmin.utils.viewset import CustomModelViewSet
 from .models import KeyInfoModel
 from .serializers import KeyInfoSerializers,KeyInfoCreateSerializers
-from .dizhi1 import extract
+from application.dizhi1 import extract
 # Create your views here.
 
 
